@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CreditCardPayment implements PaymentStrategy {
+
     @Override
     public Payment processPayment(Double amount) {
         return new Payment(amount, "USD", PaymentMethod.CREDIT_CARD, "PENDING");

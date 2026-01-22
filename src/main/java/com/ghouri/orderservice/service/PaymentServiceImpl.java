@@ -6,6 +6,7 @@ import com.ghouri.orderservice.dto.PaymentRequestDTO;
 import com.ghouri.orderservice.model.Payment;
 import com.ghouri.orderservice.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -21,12 +22,12 @@ public class PaymentServiceImpl {
 
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void processPayment(PaymentRequestDTO paymentRequestDTO) {
         // call factory to get strategy
         PaymentStrategy strategy = paymentStrategyFactory.getStrategy(paymentRequestDTO.paymentMethod());
 
-        // call pay
+        // call process payment
         Payment payment = strategy.processPayment(paymentRequestDTO.amount());
 
         // call repo and save payment
